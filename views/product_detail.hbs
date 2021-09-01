@@ -1,0 +1,11 @@
+<h1>{{brand}}</h1>
+<h2>{{product.name}}</h2>
+<h2>{{product.description}}</h2>
+
+<h1> Price{{product.price}}</h1>
+
+{{#each product_stock}}
+  {{this.name}}
+  {{this.inventory}}
+
+{{/each}}
