@@ -1,0 +1,6 @@
+<h1>Products</h1>
+<h2>{{category}}</h2>
+{{#each category_products}}
+  <h1> <a href="{{this.url}}"> {{this.name}}</a></h1>
+  <h2>{{this.description}}</h2>
+{{/each}}

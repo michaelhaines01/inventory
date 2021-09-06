@@ -1,1 +1,6 @@
-{{brand_products}}
+<h1>Products</h1>
+<h2>{{brand}}</h2>
+{{#each brand_products}}
+  <h1> <a href="{{this.url}}"> {{this.name}}</a></h1>
+  <h2>{{this.description}}</h2>
+{{/each}}

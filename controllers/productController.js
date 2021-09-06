@@ -2,8 +2,9 @@ const Product = require("../models/product");
 const Stock = require("../models/stock");
 const Brand = require("../models/brand");
 const async = require("async");
-
-exports.product_list = function (req, res) {
+const Category = require("../models/categories");
+const { body, validationResult } = require("express-validator");
+exports.product_list = function (req, res, next) {
   Product.find({}, "name description")
     .populate("description")
     .exec(function (err, description) {
@@ -15,17 +16,14 @@ exports.product_list = function (req, res) {
     });
 };
 
-exports.product_stock = function (req, res) {
+exports.product_stock = function (req, res, next) {
   // Display detail page for a specific product.
-
   async.parallel(
     {
       product: function (callback) {
         Product.findById(req.params.id)
           .populate("brand")
-          .populate("name")
-          .populate("description")
-          .populate("price")
+
           .exec(callback);
       },
       product_stock: function (callback) {
@@ -55,3 +53,86 @@ exports.product_stock = function (req, res) {
     }
   );
 };
+
+exports.product_create_get = function (req, res, next) {
+  async.parallel(
+    {
+      categories: function (callback) {
+        Category.find(callback);
+      },
+      brands: function (callback) {
+        Brand.find(callback);
+      },
+    },
+
+    function (err, results) {
+      if (err) {
+        return next(err);
+      }
+      console.log(results.categories);
+      res.render("product_form", {
+        title: "Create Product",
+        categories: results.categories,
+        brands: results.brands,
+      });
+    }
+  );
+};
+
+exports.product_create_post = [
+  body("name", "Brand name required").trim().isLength({ min: 1 }).escape(),
+  body("description", "Description required")
+    .trim()
+    .isLength({ min: 1 })
+    .escape(),
+  body("price", "Price required").trim().isLength({ min: 1 }).escape(),
+  body("brands", "Brand name required").trim().isLength({ min: 1 }).escape(),
+  body("categories", "Category required").trim().isLength({ min: 1 }).escape(),
+
+  (req, res, next) => {
+    // Extract the validation errors from a request.
+    const errors = validationResult(req);
+    console.log(errors);
+
+    if (!errors.isEmpty()) {
+      // There are errors. Render the form again with sanitized values/error messages.
+      res.render("product_form", {
+        title: "Create Brand",
+
+        errors: errors.array(),
+      });
+      return;
+    } else {
+      // Check if Product already exsists with same name already exists.
+      Product.findOne({ "name": req.body.name }).exec(function (
+        err,
+        found_product
+      ) {
+        if (err) {
+          return next(err);
+        }
+
+        if (found_product) {
+          // Genre exists, redirect to its detail page.
+          res.redirect(found_product.url);
+        } else {
+          product = new Product({
+            name: req.body.name,
+            description: req.body.description,
+            price: req.body.price,
+            category: req.body.categories,
+            brand: req.body.brands,
+          });
+
+          product.save(function (err) {
+            if (err) {
+              return next(err);
+            }
+            // brand saved. Redirect to genre detail page.
+            res.redirect(product.url);
+          });
+        }
+      });
+    }
+  },
+];
