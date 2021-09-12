@@ -1,6 +1,24 @@
-<h1>Products</h1>
-<h2>{{category}}</h2>
-{{#each category_products}}
-  <h1> <a href="{{this.url}}"> {{this.name}}</a></h1>
-  <h2>{{this.description}}</h2>
-{{/each}}
+<h1 class="text-center page-header">{{category}}</h1>
+<div class="row">
+
+  {{#each category_products}}
+
+    <div class="col-sm-4">
+
+      <div class="card text-center" style="width: 18rem;">
+        <img
+          src="{{this.productImage}}"
+          class="card-img-top"
+          alt="shell get there"
+        />
+        <div class="card-body">
+          <h3 class="card-title">{{this.name}}</h3>
+
+          <a href="{{this.url}}" class="btn btn-primary">View product</a>
+        </div>
+
+      </div>
+    </div>
+  {{/each}}
+
+</div>

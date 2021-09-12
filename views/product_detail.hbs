@@ -1,11 +1,41 @@
-<h1>{{brand}}</h1>
-<h2>{{product.name}}</h2>
-<h2>{{product.description}}</h2>
+<div class="container-fluid mt-5">
+  <div class="row">
+    <div class="col-6">
+      <img src="{{product.productImage}}" alt="Helmet image" />
+    </div>
+    <div class="col-6 d-flex flex-column justify-content-around">
+      <h1>{{brand}}</h1>
+      <h2>{{product.name}}</h2>
+      <h5>{{product.description}}</h5>
+      <h3> Price : ${{product.price}}</h3>
+      <div class="d-flex justify-content-between">
+        {{#each product_stock}}
 
-<h1> Price{{product.price}}</h1>
+          <h3>{{this.name}} {{this.inventory}}</h3>
 
-{{#each product_stock}}
-  {{this.name}}
-  {{this.inventory}}
-
-{{/each}}
+        {{/each}}
+        {{#if product_stock}}
+          <div class="d-flex">
+            <a href="{{product.url}}/stock"><button
+                type="button"
+                class="btn btn-primary"
+              >Edit stock</button>
+            </a>
+            <a href="{{product.url}}/delete_stock">
+              <button type="button" class="btn btn-danger">Delete stock</button>
+            </a>
+          </div>
+        {{else}}
+          <div class="d-flex">
+            <a href="{{product.url}}/stock">
+              <button type="button" class="btn btn-primary">Add stock</button>
+            </a>
+            <a href="{{product.url}}/delete_product">
+              <button type="button" class="btn btn-danger">Delete product</button>
+            </a>
+          </div>
+        {{/if}}
+      </div>
+    </div>
+  </div>
+</div>

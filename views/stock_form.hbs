@@ -1,0 +1,30 @@
+{{product.name}}
+<form method="POST" action="">
+  {{#each stock}}
+
+    <label for="{{this.name}}">{{this.name}}</label>
+    <input
+      type="number"
+      name="{{this.name}}"
+      min="0"
+      placeholder="{{this.inventory}}"
+      max="10000"
+      required="true"
+    />
+
+  {{else}}
+
+    <label for="small">Small</label>
+    <input type="number" name="small" min="0" max="10000" />
+    <label for="medium">Medium</label>
+    <input type="number" name="medium" min="0" max="10000" />
+    <label for="large">Large</label>
+    <input type="number" name="large" min="0" max="10000" />
+
+  {{/each}}
+  {{#if stock}}
+    <button type="submit">Edit stock</button>
+  {{else}}
+    <button type="submit"> Stock</button>
+  {{/if}}
+</form>

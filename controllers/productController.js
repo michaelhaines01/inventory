@@ -4,15 +4,18 @@ const Brand = require("../models/brand");
 const async = require("async");
 const Category = require("../models/categories");
 const { body, validationResult } = require("express-validator");
+
 exports.product_list = function (req, res, next) {
-  Product.find({}, "name description")
-    .populate("description")
+  Product.find({}, "name")
+    .populate("productImage")
     .exec(function (err, description) {
       if (err) {
         return next(err);
       }
-
-      res.render("product_list", { product_list: description });
+      console.log(description);
+      res.render("product_list", {
+        product_list: description,
+      });
     });
 };
 
@@ -43,7 +46,7 @@ exports.product_stock = function (req, res, next) {
         err.status = 404;
         return next(err);
       }
-      console.log();
+      console.log(results.product);
       // Successful, so render.
       res.render("product_detail", {
         product: results.product,
@@ -69,7 +72,7 @@ exports.product_create_get = function (req, res, next) {
       if (err) {
         return next(err);
       }
-      console.log(results.categories);
+
       res.render("product_form", {
         title: "Create Product",
         categories: results.categories,
@@ -92,7 +95,6 @@ exports.product_create_post = [
   (req, res, next) => {
     // Extract the validation errors from a request.
     const errors = validationResult(req);
-    console.log(errors);
 
     if (!errors.isEmpty()) {
       // There are errors. Render the form again with sanitized values/error messages.
@@ -104,10 +106,10 @@ exports.product_create_post = [
       return;
     } else {
       // Check if Product already exsists with same name already exists.
-      Product.findOne({ "name": req.body.name }).exec(function (
-        err,
-        found_product
-      ) {
+      Product.findOne({
+        "name": req.body.name,
+        "category": req.body.categories,
+      }).exec(function (err, found_product) {
         if (err) {
           return next(err);
         }
@@ -116,7 +118,7 @@ exports.product_create_post = [
           // Genre exists, redirect to its detail page.
           res.redirect(found_product.url);
         } else {
-          product = new Product({
+          let product = new Product({
             name: req.body.name,
             description: req.body.description,
             price: req.body.price,
@@ -128,6 +130,7 @@ exports.product_create_post = [
             if (err) {
               return next(err);
             }
+
             // brand saved. Redirect to genre detail page.
             res.redirect(product.url);
           });
@@ -136,3 +139,23 @@ exports.product_create_post = [
     }
   },
 ];
+
+exports.delete_product = function (req, res, next) {
+  Stock.find({ product: req.params.id }).exec(function (err, stock) {
+    if (err) {
+      return next(err);
+    }
+    if (stock.length !== 0) {
+      // go back to the page and send
+
+      console.log("hi");
+    }
+
+    Product.findByIdAndDelete(req.params.id).exec(function (err, product) {
+      if (err) {
+        return next(err);
+      }
+      res.redirect("/");
+    });
+  });
+};

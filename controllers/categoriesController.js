@@ -1,18 +1,5 @@
 const Category = require("../models/categories");
 const Product = require("../models/product");
-exports.category_list = function (req, res) {
-  Category.find({}, "type")
-    .populate("type")
-    .exec(function (err, type) {
-      if (err) {
-        return next(err);
-      }
-
-      res.render("category_list", {
-        category_list: type,
-      });
-    });
-};
 
 exports.category_products = function (req, res, next) {
   Product.find({ "category": req.params.id })

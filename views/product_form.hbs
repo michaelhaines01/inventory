@@ -1,46 +1,74 @@
-<h1>{{title}}</h1>
+<div
+  class="container-fluid d-flex justify-content-center flex-fill h-80 align-items-center flex-column"
+>
 
-<form action="" method="POST">
+  <h1 class="page-header">{{title}}</h1>
 
-  <label for="name">Name</label>
-  <input
-    name="name"
-    type="text"
-    placeholder="Enter brand name"
-    required="true"
-    value=""
-  />
-  <label for="description">description</label>
-  <input
-    name="description"
-    type="text"
-    placeholder="Enter brand description"
-    required="true"
-    value=""
-  />
+  <form
+    class="row g-4 justify-content-md-center w-50 border border-4"
+    action=""
+    method="POST"
+  >
+    <div class="col-12">
+      <label for="name" class="form-label">Name</label>
+      <input
+        name="name"
+        type="text"
+        placeholder="Enter product name"
+        required="true"
+        value=""
+        class="form-control"
+      /></div>
+    <div class="col-12">
+      <label for="description" class="form-label">Description</label>
+      <textarea
+        name="description"
+        type="text"
+        placeholder="Enter product description"
+        required="true"
+        value=""
+        class="form-control"
+      ></textarea>
+    </div>
+    <div class="col-3">
+      <label for="price" class="form-label">Price</label>
+      <input
+        type="number"
+        class="form-control"
+        name="price"
+        min="1"
+        max="10000"
+        required="true"
+      />
+    </div>
+    <div class="col-3">
+      <label for="brands" class="form-label">Brand</label>
+      <select name="brands" class="form-select" id="brands" name="brands">
+        {{#each brands}}
+          <option value="{{this._id}}">{{this.name}}</option>
 
-  <label for="price">Price</label>
-  <input type="number" name="price" min="1" max="10000" required="true" />
+        {{/each}}
+      </select>
+    </div>
+    <div class="col-3">
+      <label for="brands" class="form-label">Category</label>
+      <select name="category" class="form-select" id="category" name="category">
+        {{#each categories}}
+          <option
+            name="category"
+            for="{{this._id}}"
+            value="{{this._id}}"
+          >{{this.type}}</option>
 
-  <label for="brands">Choose Brand</label>
-  <select name="brands" id="brands" name="brands">
-    {{#each brands}}
-      <option value="{{this._id}}">{{this.name}}</option>
+        {{/each}}
+      </select>
+    </div>
 
-    {{/each}}
-  </select>
+    <div class="col-3 p-3">
+      <button type="submit" class="btn btn-primary">Add product</button>
 
-  {{#each categories}}
-    <label for="{{this._id}}">{{this.type}}</label>
-    <input
-      type="radio"
-      name="categories"
-      id="{{this._id}}"
-      value="{{this._id}}"
-    />
+    </div>
 
-  {{/each}}
-  <button type="submit">Add new brand</button>
-</form>
+  </form></div>
 do this at some point
 {{errors}}

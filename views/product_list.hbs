@@ -1,8 +1,22 @@
-<h1>All products</h1>
+<h1 class="text-center page-header">All products</h1>
+<div class="row">
+  {{#each product_list}}
+    <div class="col-sm-4">
 
-{{#each product_list}}
+      <div class="card text-center" style="width: 18rem;">
+        <img
+          src="{{this.productImage}}"
+          class="card-img-top"
+          alt="shell get there"
+        />
+        <div class="card-body">
+          <h3 class="card-title">{{this.name}}</h3>
 
-  <h1> <a href="{{this.url}}"> {{this.name}}</a></h1>
-  <h2>{{this.description}}</h2>
+          <a href="{{this.url}}" class="btn btn-primary">View product</a>
+        </div>
 
-{{/each}}
+      </div>
+    </div>
+  {{/each}}
+
+</div>

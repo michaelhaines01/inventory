@@ -2,14 +2,16 @@ const Brand = require("../models/brand");
 const Product = require("../models/product");
 const { body, validationResult } = require("express-validator");
 const async = require("async");
+
 exports.brand_list = function (req, res) {
-  Brand.find({}, "name description")
+  Brand.find({}, "name description brandimage")
     .populate("name")
+
     .exec(function (err, name) {
       if (err) {
         return next(err);
       }
-
+      console.log(name);
       res.render("brand_list", {
         brand_list: name,
       });
@@ -17,12 +19,9 @@ exports.brand_list = function (req, res) {
 };
 
 exports.brand_products = function (req, res, next) {
-  console.log("here");
-  console.log(req.params.id);
-
   Product.find({ "brand": req.params.id })
     .populate("brand")
-    //if populate undefined return somthinghere
+
     .exec(function (err, products) {
       if (err) {
         return next(err);
@@ -58,7 +57,6 @@ exports.brand_create_post = [
     // Extract the validation errors from a request.
     const errors = validationResult(req);
     console.log(errors);
-    // Create a genre object with escaped and trimmed data.
 
     if (!errors.isEmpty()) {
       // There are errors. Render the form again with sanitized values/error messages.
@@ -122,8 +120,7 @@ exports.brand_delete_get = function (req, res, next) {
         res.redirect("/brands");
       }
 
-      console.log(results.brand);
-      console.log(results.brand_products.length);
+      console.log(results.brand_products);
       res.render("brand_delete", {
         title: "Delete Brand",
         brand: results.brand,
@@ -149,7 +146,7 @@ exports.brand_delete_post = function (req, res, next) {
       }
       // Success
       if (results.brand_products.length > 0) {
-        // Author has books. Render in same way as for GET route.
+        // brand has products. Render in same way as for GET route.
         res.render("brand_delete", {
           title: "Delete Brand",
           brand: results.brand,
@@ -157,7 +154,7 @@ exports.brand_delete_post = function (req, res, next) {
         });
         return;
       } else {
-        // Author has no books. Delete object and redirect to the list of authors.
+        // brand has no books. Delete object and redirect to the list of authors.
         Brand.findByIdAndRemove(req.body.brandid, function deleteBrand(err) {
           if (err) {
             return next(err);

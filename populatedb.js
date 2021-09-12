@@ -72,18 +72,17 @@ function productCreate(
   name,
   description,
   price,
+  productImage,
   category,
   brand,
 
-  ProductImage,
   cb
 ) {
-  console.log(brand);
   let productdetail = {
     name: name,
     description: description,
     price: price,
-    ProductImage: ProductImage,
+    productImage: productImage,
   };
 
   if (category != false) productdetail.category = category;
@@ -127,7 +126,7 @@ function createBrandCategory(cb) {
         brandCreate(
           "Arai",
           "Arai Helmet Limited (株式会社 アライヘルメット, Kabushiki-gaisha Arai Herumetto) is a Japanese company that designs and manufactures motorcycle helmets and other helmets for motorsports.",
-          "./public/images/arai",
+          "../public/images/arai",
           callback
         );
       },
@@ -135,7 +134,7 @@ function createBrandCategory(cb) {
         brandCreate(
           "Shoei",
           "Shoei is a Japanese company producing motorcycle helmets since 1958.",
-          "./public/images/shoei",
+          "../images/shoei",
           callback
         );
       },
@@ -143,7 +142,7 @@ function createBrandCategory(cb) {
         brandCreate(
           "AGV",
           "AGV has been a leading force in helmet design and motorcycle racing since its foundation, ceaselessly innovating every area from aerodynamics, comfort and safety to graphics, sponsorship and advertising in the lead since 1947",
-          "./public/images/agv",
+          "../images/agv",
           callback
         );
       },
@@ -155,12 +154,6 @@ function createBrandCategory(cb) {
       },
       function (callback) {
         categoryCreate("Open face", callback);
-      },
-      function (callback) {
-        categoryCreate("Off-road", callback);
-      },
-      function (callback) {
-        categoryCreate("Dual-sport", callback);
       },
     ],
     cb // optional callback
@@ -175,10 +168,11 @@ function createProduct(cb) {
         productCreate(
           "Concept-X",
           "Although a nod to the past, the Concept-X is very much a helmet of the present. Ready for a generation of modern riders that demand a new, old style - but with the performance and comfort only an Arai can provide. ",
-          790,
+          790.0,
+          "../images/Arai-concept-x.jpg",
           categories[0],
           brands[0],
-          "image",
+
           callback
         );
       },
@@ -186,10 +180,66 @@ function createProduct(cb) {
         productCreate(
           "GT-Air II",
           "With the innovative and highly-acclaimed GT-Air as a baseline, the all-new GT-Air II was destined for greatness from the very start. Advancements in design, functionality and performance have further evolved SHOEI’s premiere full-face touring helmet",
-          800,
+          800.0,
+          "../images/Shoei-gt-air-2.jpg",
           categories[0],
           brands[1],
-          "image",
+
+          callback
+        );
+      },
+      function (callback) {
+        productCreate(
+          "K1 Dreamtime",
+          "K1 is the AGV sport helmet for everyday riding challenges. Born from the AGV racing technology, ready for every road experience.",
+          349.0,
+          "../images/AGV-k1-dreamtime.jpg",
+          categories[0],
+          brands[2],
+          callback
+        );
+      },
+      function (callback) {
+        productCreate(
+          "Freeway Classic Union",
+          "The Freeway-Classic fulfills the fundamental functions of a motorcycle helmet for those who like to take it easy and experience the world around them to the fullest.",
+          539.95,
+          "../images/Arai-freeway-union.jpg",
+          categories[0],
+          brands[0],
+          callback
+        );
+      },
+      function (callback) {
+        productCreate(
+          "J.O Matt Brown",
+          "Whether you ride a custom classic or modern retro, the new Shoei J.O will match your ride, with no compromise on safety and comfort!",
+          599.9,
+          "../images/Shoe-j.o-matt-brown.jpg",
+          categories[2],
+          brands[1],
+          callback
+        );
+      },
+      function (callback) {
+        productCreate(
+          "Neotec II",
+          "An every-occasion helmet with the adaptability to excel no matter where your next journey takes you, the NEOTEC II does it all with style and precision. ",
+          1099.9,
+          "../images/Shoe-neotec-2.jpg",
+          categories[1],
+          brands[1],
+          callback
+        );
+      },
+      function (callback) {
+        productCreate(
+          "Sportmodular Matt Carbon",
+          "The world’s first SportModular helmet: the performance of a full-face helmet together with the comfort of a modular. Entirely built in Carbon Fiber (shell and chin)",
+          999.0,
+          "../images/AGV-sportmodular-carbon.jpg",
+          categories[1],
+          brands[2],
           callback
         );
       },
@@ -239,3 +289,14 @@ async.series(
     mongoose.connection.close();
   }
 );
+
+/*function (callback) {
+  productCreate(
+    //name
+    //description
+    //price
+    //image address
+    //catergories
+    //brands
+  );
+},*/

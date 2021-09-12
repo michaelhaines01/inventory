@@ -1,17 +1,32 @@
-<h1>{{title}}</h1>
-<h2>{{brand.name}}</h2>
-<h2>{{brand.description}}</h2>
+<div class="container-fluid">
+  <h2 class="text-center page-header">{{brand.name}}</h2>
+  <h3> This brand contains these item(s) In stock</h3><p>You must delete the
+    following items in stock first</p>
+  <div class="row">
+    {{#each brand_products}}
+      <div class="col-sm-4">
 
-<h3> This brand contains these item(s) In stock</h3>
-need to put a if statement to not display form if items exist
-{{#each brand_products}}
-  {{this.name}}
-  {{this.description}}
-{{/each}}
-<p>You must delete the following items in stock first</p>
-<form method="POST" action="">
-  <h4>Are you sure you want to delete brand and all associated stock</h4>
+        <div class="card text-center" style="width: 18rem;">
+          <img
+            src="../{{this.productImage}}"
+            class="card-img-top"
+            alt="shell get there"
+          />
+          <div class="card-body">
+            <h3 class="card-title">{{this.name}}</h3>
 
-  <input type="hidden" name="brandid" required="true" value={{brand._id}} />
-  <button type="submit">Delete</button>
-</form>
+            <a href="{{this.url}}" class="btn btn-primary">View product</a>
+          </div>
+
+        </div>
+      </div>
+    {{/each}}
+  </div>
+
+  <form method="POST" action="">
+    <h4>Are you sure you want to delete brand and all associated stock</h4>
+
+    <input type="hidden" name="brandid" required="true" value={{brand._id}} />
+    <button class="btn btn-danger type="submit">Delete</button>
+
+  </form></div>
