@@ -46,7 +46,7 @@ exports.product_stock = function (req, res, next) {
         err.status = 404;
         return next(err);
       }
-      console.log(results.product);
+
       // Successful, so render.
       res.render("product_detail", {
         product: results.product,
@@ -93,14 +93,14 @@ exports.product_create_post = [
   body("category", "Category required").trim().isLength({ min: 1 }).escape(),
 
   (req, res, next) => {
+    console.log(req.file);
     // Extract the validation errors from a request.
     const errors = validationResult(req);
-    console.log(errors);
+
     if (!errors.isEmpty()) {
       // There are errors. Render the form again with sanitized values/error messages.
       res.render("product_form", {
         title: "Create Brand",
-
         errors: errors.array(),
       });
       return;
@@ -113,7 +113,6 @@ exports.product_create_post = [
         if (err) {
           return next(err);
         }
-
         if (found_product) {
           // Genre exists, redirect to its detail page.
           res.redirect(found_product.url);
@@ -124,6 +123,7 @@ exports.product_create_post = [
             price: req.body.price,
             category: req.body.category,
             brand: req.body.brands,
+            productImage: `../images/${req.file.filename}`,
           });
 
           product.save(function (err) {
@@ -147,8 +147,6 @@ exports.delete_product = function (req, res, next) {
     }
     if (stock.length !== 0) {
       // go back to the page and send
-
-      console.log("hi");
     }
 
     Product.findByIdAndDelete(req.params.id).exec(function (err, product) {

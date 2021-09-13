@@ -83,6 +83,7 @@ exports.brand_create_post = [
           brand = new Brand({
             name: req.body.name,
             description: req.body.description,
+            brandimage: `../images/${req.file.filename}`,
           });
 
           brand.save(function (err) {
