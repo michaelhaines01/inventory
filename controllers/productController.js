@@ -90,12 +90,12 @@ exports.product_create_post = [
     .escape(),
   body("price", "Price required").trim().isLength({ min: 1 }).escape(),
   body("brands", "Brand name required").trim().isLength({ min: 1 }).escape(),
-  body("categories", "Category required").trim().isLength({ min: 1 }).escape(),
+  body("category", "Category required").trim().isLength({ min: 1 }).escape(),
 
   (req, res, next) => {
     // Extract the validation errors from a request.
     const errors = validationResult(req);
-
+    console.log(errors);
     if (!errors.isEmpty()) {
       // There are errors. Render the form again with sanitized values/error messages.
       res.render("product_form", {
@@ -108,7 +108,7 @@ exports.product_create_post = [
       // Check if Product already exsists with same name already exists.
       Product.findOne({
         "name": req.body.name,
-        "category": req.body.categories,
+        "category": req.body.category,
       }).exec(function (err, found_product) {
         if (err) {
           return next(err);
@@ -122,7 +122,7 @@ exports.product_create_post = [
             name: req.body.name,
             description: req.body.description,
             price: req.body.price,
-            category: req.body.categories,
+            category: req.body.category,
             brand: req.body.brands,
           });
 

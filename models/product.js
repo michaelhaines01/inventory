@@ -8,7 +8,7 @@ var ProductSchema = new Schema({
   category: [{ type: Schema.Types.ObjectId, ref: "Category" }],
   brand: [{ type: Schema.Types.ObjectId, ref: "Brand" }],
   price: { type: Number, max: 100000, min: 1 }, //Price needs to be divided by 100 for cents
-  productImage: { type: String, required: true, maxLength: 100 },
+  productImage: { type: String, maxLength: 100 },
 });
 
 ProductSchema.virtual("url").get(function () {

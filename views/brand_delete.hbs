@@ -2,10 +2,10 @@
   <h2 class="text-center page-header">{{brand.name}}</h2>
   <h3> This brand contains these item(s) In stock</h3><p>You must delete the
     following items in stock first</p>
-  <div class="row">
+  <div class="row">  
+    {{#if brand_products}}
     {{#each brand_products}}
       <div class="col-sm-4">
-
         <div class="card text-center" style="width: 18rem;">
           <img
             src="../{{this.productImage}}"
@@ -14,19 +14,16 @@
           />
           <div class="card-body">
             <h3 class="card-title">{{this.name}}</h3>
-
             <a href="{{this.url}}" class="btn btn-primary">View product</a>
           </div>
-
         </div>
       </div>
     {{/each}}
   </div>
-
-  <form method="POST" action="">
-    <h4>Are you sure you want to delete brand and all associated stock</h4>
-
-    <input type="hidden" name="brandid" required="true" value={{brand._id}} />
-    <button class="btn btn-danger type="submit">Delete</button>
-
-  </form></div>
+{{else}}
+    <form method="POST" action="">
+      <h4>Are you sure you want to delete brand and all associated stock</h4>
+      <input type="hidden" name="brandid" required="true" value={{brand._id}} />
+      <button class="btn btn-danger" type="submit">Delete</button>
+    </form>
+  {{/if}}</div>

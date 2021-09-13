@@ -1,30 +1,53 @@
-{{product.name}}
-<form method="POST" action="">
-  {{#each stock}}
+<h1 class="page-header">{{product.name}}</h1>
+<div class="container d-flex justify-content-center flex-column">
+  <form method="POST" action="">
 
-    <label for="{{this.name}}">{{this.name}}</label>
-    <input
-      type="number"
-      name="{{this.name}}"
-      min="0"
-      placeholder="{{this.inventory}}"
-      max="10000"
-      required="true"
-    />
+    {{#each stock}}
+<div>
+  
+      <div class="form-group my-4">
+        <label for="{{this.name}}" class="form-label">{{this.name}}</label>
+        <input
+          type="number"
+          name="{{this.name}}"
+          min="0"
+          placeholder="{{this.inventory}}"
+          max="10000"
+          required="true"
+          class="form-control"
+        />
+      </div>
 
-  {{else}}
+    {{else}}
 
-    <label for="small">Small</label>
-    <input type="number" name="small" min="0" max="10000" />
-    <label for="medium">Medium</label>
-    <input type="number" name="medium" min="0" max="10000" />
-    <label for="large">Large</label>
-    <input type="number" name="large" min="0" max="10000" />
+      <div class="form-group my-4">
+        <label for="small" class="form-label">Small</label>
+        <input
+          class="form-control"
+          type="number"
+          name="small"
+          min="0"
+          max="10000"
+        />
+        <label for="medium" class="form-label">Medium</label>
+        <input
+          class="form-control"
+          type="number"
+          name="medium"
+          min="0"
+          max="10000"
+        />
+        <label for="large" class="form-label">Large</label>
+        <input
+          class="form-control"
+          type="number"
+          name="large"
+          min="0"
+          max="10000"
+        />
+      </div>
+    {{/each}}
 
-  {{/each}}
-  {{#if stock}}
-    <button type="submit">Edit stock</button>
-  {{else}}
-    <button type="submit"> Stock</button>
-  {{/if}}
-</form>
+    <button class="btn btn-primary my-1" type="submit">Edit stock</button>
+
+  </form></div>
