@@ -72,7 +72,6 @@ exports.product_create_get = function (req, res, next) {
       if (err) {
         return next(err);
       }
-
       res.render("product_form", {
         title: "Create Product",
         categories: results.categories,
@@ -114,7 +113,7 @@ exports.product_create_post = [
           return next(err);
         }
         if (found_product) {
-          // Genre exists, redirect to its detail page.
+          // Product exists, redirect to its detail page.
           res.redirect(found_product.url);
         } else {
           let product = new Product({
@@ -148,7 +147,6 @@ exports.delete_product = function (req, res, next) {
     if (stock.length !== 0) {
       // go back to the page and send
     }
-
     Product.findByIdAndDelete(req.params.id).exec(function (err, product) {
       if (err) {
         return next(err);
