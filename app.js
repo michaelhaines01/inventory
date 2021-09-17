@@ -3,21 +3,20 @@ var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
-
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
-
 var app = express();
 
+//Adds Dotenv
+require("dotenv").config();
 //Mongo Setup
 var mongoose = require("mongoose");
-var mongoDB =
-  "mongodb+srv://michaelhaines:1234@cluster0.cvex6.mongodb.net/helmetinventory?retryWrites=true&w=majority";
+var mongoDB = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.cvex6.mongodb.net/helmetinventory?retryWrites=true&w=majority`;
 mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
 var db = mongoose.connection;
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
-
-// view engine setup
+console.log(process.env.DB_HOST);
+// view handlebars engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "hbs");
 
@@ -41,7 +40,6 @@ app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get("env") === "development" ? err : {};
-
   // render the error page
   res.status(err.status || 500);
   res.render("error");

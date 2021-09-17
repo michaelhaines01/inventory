@@ -27,7 +27,7 @@ router.get("/", function (req, res, next) {
 
 //Delete stock
 router.get("/product/:id/delete_stock", stockController.stock_delete);
-//stock
+//Stock
 router.get("/product/:id/stock", stockController.stock_product);
 router.post("/product/:id/stock", stockController.stock_product_post);
 

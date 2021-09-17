@@ -6,7 +6,6 @@ const async = require("async");
 exports.brand_list = function (req, res) {
   Brand.find({}, "name description brandimage")
     .populate("name")
-
     .exec(function (err, name) {
       if (err) {
         return next(err);
@@ -44,7 +43,6 @@ exports.brand_create_get = function (req, res, next) {
   res.render("brand_form", { title: "Create Brand" });
 };
 
-// Handle Genre create on POST.
 exports.brand_create_post = [
   // Validate and santize the name field.
   body("name", "Brand name required").trim().isLength({ min: 1 }).escape(),
@@ -56,8 +54,6 @@ exports.brand_create_post = [
   (req, res, next) => {
     // Extract the validation errors from a request.
     const errors = validationResult(req);
-    console.log(errors);
-
     if (!errors.isEmpty()) {
       // There are errors. Render the form again with sanitized values/error messages.
       res.render("brand_form", {
@@ -77,7 +73,6 @@ exports.brand_create_post = [
         }
 
         if (found_brand) {
-          // Genre exists, redirect to its detail page.
           res.redirect(found_brand.url);
         } else {
           brand = new Brand({
@@ -85,12 +80,11 @@ exports.brand_create_post = [
             description: req.body.description,
             brandimage: `../images/${req.file.filename}`,
           });
-
           brand.save(function (err) {
             if (err) {
               return next(err);
             }
-            // Genre saved. Redirect to genre detail page.
+            // Brand saved. Redirect to genre detail page.
             res.redirect(brand.url);
           });
         }
@@ -101,7 +95,6 @@ exports.brand_create_post = [
 
 exports.brand_delete_get = function (req, res, next) {
   console.log(req.params.id);
-
   async.parallel(
     {
       brand: function (callback) {
@@ -120,8 +113,6 @@ exports.brand_delete_get = function (req, res, next) {
       if (results.brand === null) {
         res.redirect("/brands");
       }
-
-      console.log(results.brand_products);
       res.render("brand_delete", {
         title: "Delete Brand",
         brand: results.brand,
@@ -155,12 +146,12 @@ exports.brand_delete_post = function (req, res, next) {
         });
         return;
       } else {
-        // brand has no books. Delete object and redirect to the list of authors.
+        // Delete object and redirect to the list of brands.
         Brand.findByIdAndRemove(req.body.brandid, function deleteBrand(err) {
           if (err) {
             return next(err);
           }
-          // Success - go to author list
+          // Success - go to brand list
           res.redirect("/brands");
         });
       }
